@@ -1,4 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
+
 async function fetchComments(postId) {
   const response = await fetch(
     `https://jsonplaceholder.typicode.com/comments?postId=${postId}`
@@ -32,14 +33,51 @@ export function PostDetail({ post }) {
     staleTime: 1000 * 60,
   });
 
-  if (isLoading) return <p>Loading..</p>;
+  const deleteMutation = useMutation({
+    mutationFn: (postId) => deletePost(postId),
+  });
 
+  const updateMutation = useMutation({
+    mutationFn: (postId) => updatePost(postId),
+  });
+
+  if (isLoading) return <p>Loading..</p>;
   if (isError) return <p>something went wrong - {error.toString()}</p>;
 
   return (
     <>
       <h3 style={{ color: 'blue' }}>{post.title}</h3>
-      <button>Delete</button> <button>Update title</button>
+      <button onClick={() => deleteMutation.mutate(post.id)}>
+        {deleteMutation.isLoading ? (
+          <span style={{ color: 'purple' }}>deleting...</span>
+        ) : (
+          'Delete'
+        )}
+      </button>
+      <button
+        onClick={() => {
+          updateMutation.mutate(post.id);
+        }}
+      >
+        {updateMutation.isLoading ? (
+          <span style={{ color: 'purple' }}>updating...</span>
+        ) : (
+          'Update title'
+        )}
+      </button>
+      {deleteMutation.isError && (
+        <p style={{ color: 'red' }}>something went wrong</p>
+      )}
+      {deleteMutation.isSuccess && (
+        <p style={{ color: 'green' }}>deleted successfully..!</p>
+      )}
+
+      {updateMutation.isError && (
+        <p style={{ color: 'red' }}>something went wrong</p>
+      )}
+      {updateMutation.isSuccess && (
+        <p style={{ color: 'green' }}>updated successfully..!</p>
+      )}
       <p>{post.body}</p>
       <h4>Comments</h4>
       {comments.map((comment) => (
