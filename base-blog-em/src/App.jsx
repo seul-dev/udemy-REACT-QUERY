@@ -4,7 +4,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Posts } from './Posts';
 import './App.css';
 
-export const queryClient = new QueryClient();
+const queryClient = new QueryClient();
 function App() {
   return (
     // provide React Query client to App

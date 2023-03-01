@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { PostDetail } from './PostDetail';
-import { queryClient } from './App';
 
 const maxPostPage = 10;
 
@@ -25,6 +24,7 @@ export function Posts() {
   } = useQuery(['posts', currentPage], () => fetchPosts(currentPage), {
     staleTime: 1000 * 60,
   });
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (currentPage < maxPostPage) {
@@ -37,7 +37,7 @@ export function Posts() {
         }
       );
     }
-  }, [currentPage]);
+  }, [currentPage, queryClient]);
 
   if (isLoading) return <h3>Loading...</h3>;
   if (isError) return <h3>Something went wrong {error.toString()}</h3>;
