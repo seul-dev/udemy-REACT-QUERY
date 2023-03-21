@@ -4,4 +4,5 @@ export const queryKeys = {
   appointments: (year: string, month: string) => ['appointments', year, month],
   user: ['user'],
   staff: ['staff'],
+  userAppintments: ['user-appointments'],
 };
