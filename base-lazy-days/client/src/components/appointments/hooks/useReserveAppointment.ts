@@ -23,9 +23,6 @@ async function setAppointmentUser(
   });
 }
 
-// TODO: update type for React Query mutate function
-type AppointmentMutationFunction = (appointment: Appointment) => void;
-
 export function useReserveAppointment(): UseMutateFunction<
   void,
   unknown,
@@ -40,7 +37,7 @@ export function useReserveAppointment(): UseMutateFunction<
     (appointment: Appointment) => setAppointmentUser(appointment, user.id),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(queryKeys.appointmentsAll);
+        queryClient.invalidateQueries(queryKeys.appointments);
         toast({
           title: 'You have reserved the appointment!',
           status: 'success',

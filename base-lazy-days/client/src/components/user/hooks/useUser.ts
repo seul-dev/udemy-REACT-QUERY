@@ -58,7 +58,7 @@ export function useUser(): UseUser {
   function clearUser() {
     // TODO: reset user to null in query cache
     queryClient.setQueryData(queryKeys.user, null);
-    queryClient.removeQueries(queryKeys.userAppintments);
+    queryClient.removeQueries(queryKeys.userAppointments);
   }
 
   return { user, updateUser, clearUser };

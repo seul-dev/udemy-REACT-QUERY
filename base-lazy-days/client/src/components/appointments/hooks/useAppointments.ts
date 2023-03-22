@@ -67,7 +67,7 @@ export function useAppointments(): UseAppointments {
     const nextMonthYear = getNewMonthYear(monthYear, 1);
 
     queryClient.prefetchQuery(
-      queryKeys.appointments(nextMonthYear.year, nextMonthYear.month),
+      queryKeys.appointmentsByMonth(nextMonthYear.year, nextMonthYear.month),
       () => getAppointments(nextMonthYear.year, nextMonthYear.year),
       commonOptions,
     );
@@ -101,7 +101,7 @@ export function useAppointments(): UseAppointments {
 
   /** ****************** END 3: useQuery  ******************************* */
   const { data: appointments = fallback } = useQuery(
-    queryKeys.appointments(monthYear.year, monthYear.month),
+    queryKeys.appointmentsByMonth(monthYear.year, monthYear.month),
     () => getAppointments(monthYear.year, monthYear.month),
     {
       select: showAll ? undefined : filterAvailableData,
