@@ -10,4 +10,4 @@ export const queryKeys = {
   user: ['user'],
   staff: ['staff'],
   userAppointments: ['appointments', 'user'],
-};
+} as const;
